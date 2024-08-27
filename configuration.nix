@@ -107,7 +107,7 @@ in
   }];
 
   nova.profile = "shared";
-  nova.substituters.nova.password = ***REMOVED***;
+  nova.substituters.nova.password = ./hydra-secret.nix;
 
   users.users.nova.extraGroups = [ "audio" ];
 
