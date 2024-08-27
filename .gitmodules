@@ -1,0 +1,6 @@
+[submodule "nixfiles"]
+	path = nixfiles
+	url = git@github.com:MonashNovaRover/nixfiles.git
+[submodule "nix-ros-overlay"]
+	path = nix-ros-overlay
+	url = git@github.com:lopsided98/nix-ros-overlay.git

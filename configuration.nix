@@ -35,7 +35,6 @@ in
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./nixfiles/nixos
-    ./musnix
     <home-manager/nixos>
   ];
 
@@ -55,8 +54,6 @@ in
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
   ];
-
-  musnix.enable = true;
 
   # nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -116,14 +113,11 @@ in
 
   nova.workspace.enable = true;
 
-  # -- Firefox stuff -- 
   nixpkgs.overlays = [
-    (import ./nixpkgs-mozilla/firefox-overlay.nix)
-    (import ./nix-ros-overlay/overlay.nix)
+    #(import ./nix-ros-overlay/overlay.nix)
     (import "${(builtins.fetchTarball waylandUrl)}/overlay.nix")
   ];
   nixpkgs.config.allowUnfree = true;
-
 
   environment.systemPackages = with pkgs; [
     # Utility
@@ -141,12 +135,7 @@ in
     zoom-us
 
     # Both uni/work and personal
-    latest.firefox-nightly-bin
-
-
     obsidian-fix
-
-
 
     # obsidian --ozone-platform=x11
     obs-studio
@@ -174,7 +163,7 @@ in
     #rosPackages.humble.geometry-msgs
     #rosPackages.humble.ros-base
     #rosPackages.humble.ros2cli
-    colcon
+    # colcon
     brave
 
     # Logitech crap
