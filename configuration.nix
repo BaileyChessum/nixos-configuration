@@ -107,11 +107,30 @@ in
   }];
 
   nova.profile = "shared";
-  nova.substituters.nova.password = ./hydra-secret.nix;
+  nova.substituters.nova.password = import ./hydra-secret.nix;
 
   users.users.nova.extraGroups = [ "audio" ];
 
   nova.workspace.enable = true;
+
+  home-manager.users.nova = {
+    home.packages = with pkgs;  [
+      #add your software here
+      #e.g. slack
+      slack
+    ];
+
+    # Adding to the task bar
+    dconf.settings."org/gnome/shell".favorite-apps = [
+      # e.g. adding chrome, slack and vscode
+      "brave-browser.desktop"
+      "slack.desktop"
+      "com.raggesilver.BlackBox.desktop"
+      "obsidian.desktop"
+    ];
+  };
+
+  nova.desktop.browser.enable = lib.mkForce false;
 
   nixpkgs.overlays = [
     #(import ./nix-ros-overlay/overlay.nix)
