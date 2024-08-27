@@ -1,0 +1,221 @@
+# howdy!
+      #
+      # Boards
+      #
+
+      # CP210X USB UART
+      ATTRS { idVendor }==" 10
+      c4 ", ATTRS{idProduct}=="
+      ea [ 67 ] [ 013 ] ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE} = " 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+    ATTRS{idVendor}==" 10
+      c4 ", ATTRS{idProduct}==" 80
+      a9 ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # FT231XS USB UART
+      ATTRS{idVendor}==" 0403 ", ATTRS{idProduct}==" 6015 ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Prolific Technology, Inc. PL2303 Serial Port
+      ATTRS{idVendor}==" 067
+      b ", ATTRS{idProduct}==" 2303 ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # QinHeng Electronics HL-340 USB-Serial adapter
+      ATTRS{idVendor}==" 1
+      a86 ", ATTRS{idProduct}==" 7523 ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+    # QinHeng Electronics CH343 USB-Serial adapter
+    ATTRS{idVendor}==" 1
+      a86 ", ATTRS{idProduct}==" 55
+      d3 ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+    # QinHeng Electronics CH9102 USB-Serial adapter
+    ATTRS{idVendor}==" 1
+      a86 ", ATTRS{idProduct}==" 55
+      d4 ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Arduino boards
+      ATTRS{idVendor}==" 2341 ", ATTRS{idProduct}==" [ 08 ] [ 023 ] * ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+    ATTRS{idVendor}==" 2
+      a03 ", ATTRS{idProduct}==" [ 08 ] [ 02 ] * ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Arduino SAM-BA
+      ATTRS{idVendor}==" 03
+      eb ", ATTRS{idProduct}==" 6124 ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{MTP_NO_PROBE}=" 1 "
+
+      # Digistump boards
+      ATTRS{idVendor}==" 16
+      d0 ", ATTRS{idProduct}==" 0753 ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Maple with DFU
+      ATTRS{idVendor}==" 1
+      eaf ", ATTRS{idProduct}==" 000 [ 34 ] ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # USBtiny
+      ATTRS{idProduct}==" 0
+      c9f ", ATTRS{idVendor}==" 1781 ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # USBasp V2.0
+      ATTRS{idVendor}==" 16
+      c0 ", ATTRS{idProduct}==" 05
+      dc ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Teensy boards
+      ATTRS{idVendor}==" 16
+      c0 ", ATTRS{idProduct}==" 04 [ 789 B ]?", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+    ATTRS{idVendor}==" 16
+      c0 ", ATTRS{idProduct}==" 04 [ 789 A ]?", ENV{MTP_NO_PROBE}=" 1 "
+    SUBSYSTEMS=="
+      usb ", ATTRS{idVendor}==" 16
+      c0 ", ATTRS{idProduct}==" 04 [ 789 ABCD ]?", MODE:=" 0666 "
+    KERNEL=="
+      ttyACM * ", ATTRS{idVendor}==" 16 c0 ", ATTRS{idProduct}==" 04 [ 789 B ]?", MODE:=" 0666 "
+
+      # TI Stellaris Launchpad
+      ATTRS{idVendor}==" 1
+      cbe ", ATTRS{idProduct}==" 00
+      fd ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # TI MSP430 Launchpad
+      ATTRS{idVendor}==" 0451 ", ATTRS{idProduct}=="
+      f432 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # GD32V DFU Bootloader
+      ATTRS{idVendor}==" 28
+      e9 ", ATTRS{idProduct}==" 0189 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # FireBeetle-ESP32
+      ATTRS{idVendor}==" 1
+      a86 ", ATTRS{idProduct}==" 7522 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Wio Terminal
+      ATTRS{idVendor}==" 2886 ", ATTRS{idProduct}==" [ 08 ] 02
+      d ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Raspberry Pi Pico
+      ATTRS{idVendor}==" 2
+      e8a ", ATTRS{idProduct}==" [ 01 ] * ", MODE:=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # AIR32F103
+      ATTRS{idVendor}==" 0
+      d28 ", ATTRS{idProduct}==" 0204 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # STM32 virtual COM port
+      ATTRS{idVendor}==" 0483 ", ATTRS{idProduct}==" 5740 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      #
+      # Debuggers
+      #
+
+      # Black Magic Probe
+      SUBSYSTEM=="
+      tty ", ATTRS{interface}=="
+      Black
+      Magic
+      GDB
+      Server ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+    SUBSYSTEM=="
+      tty ", ATTRS{interface}=="
+      Black
+      Magic
+      UART
+      Port ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # opendous and estick
+      ATTRS{idVendor}==" 03
+      eb ", ATTRS{idProduct}==" 204
+      f ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Original FT232/FT245/FT2232/FT232H/FT4232
+      ATTRS{idVendor}==" 0403 ", ATTRS{idProduct}==" 60 [ 01 ] [ 104 ] ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # DISTORTEC JTAG-lock-pick Tiny 2
+      ATTRS{idVendor}==" 0403 ", ATTRS{idProduct}==" 8220 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # TUMPA, TUMPA Lite
+      ATTRS{idVendor}==" 0403 ", ATTRS{idProduct}==" 8
+      a9 [ 89 ] ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # XDS100v2
+      ATTRS{idVendor}==" 0403 ", ATTRS{idProduct}=="
+      a6d0 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Xverve Signalyzer Tool (DT-USB-ST), Signalyzer LITE (DT-USB-SLITE)
+      ATTRS{idVendor}==" 0403 ", ATTRS{idProduct}=="
+      bca [ 01 ] ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # TI/Luminary Stellaris Evaluation Board FTDI (several)
+      ATTRS{idVendor}==" 0403 ", ATTRS{idProduct}=="
+      bcd [ 9 a ] ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # egnite Turtelizer 2
+      ATTRS{idVendor}==" 0403 ", ATTRS{idProduct}=="
+      bdc8 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Section5 ICEbear
+      ATTRS{idVendor}==" 0403 ", ATTRS{idProduct}=="
+      c14 [ 01 ] ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Amontec JTAGkey and JTAGkey-tiny
+      ATTRS{idVendor}==" 0403 ", ATTRS{idProduct}=="
+      cff8 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # TI ICDI
+      ATTRS{idVendor}==" 0451 ", ATTRS{idProduct}=="
+      c32a ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # STLink probes
+      ATTRS{idVendor}==" 0483 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Hilscher NXHX Boards
+      ATTRS{idVendor}==" 0640 ", ATTRS{idProduct}==" 0028 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Hitex probes
+      ATTRS{idVendor}==" 0640 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Altera USB Blaster
+      ATTRS{idVendor}==" 09
+      fb ", ATTRS{idProduct}==" 6001 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Amontec JTAGkey-HiSpeed
+      ATTRS{idVendor}==" 0
+      fbb ", ATTRS{idProduct}==" 1000 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # SEGGER J-Link
+      ATTRS{idVendor}==" 1366 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Raisonance RLink
+      ATTRS{idVendor}==" 138
+      e ", ATTRS{idProduct}==" 9000 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Debug Board for Neo1973
+      ATTRS{idVendor}==" 1457 ", ATTRS{idProduct}==" 5118 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Olimex probes
+      ATTRS{idVendor}==" 15
+      ba ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # USBprog with OpenOCD firmware
+      ATTRS{idVendor}==" 1781 ", ATTRS{idProduct}==" 0
+      c63 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # TI/Luminary Stellaris In-Circuit Debug Interface (ICDI) Board
+      ATTRS{idVendor}==" 1
+      cbe ", ATTRS{idProduct}==" 00
+      fd ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Marvell Sheevaplug
+      ATTRS{idVendor}==" 9
+      e88 ", ATTRS{idProduct}==" 9
+      e8f ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Keil Software, Inc. ULink
+      ATTRS{idVendor}=="
+      c251 ", ATTRS{idProduct}==" 2710 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # CMSIS-DAP compatible adapters
+      ATTRS{product}==" * CMSIS-DAP * ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Atmel AVR Dragon
+      ATTRS{idVendor}==" 03
+      eb ", ATTRS{idProduct}==" 2107 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
+
+      # Espressif USB JTAG/serial debug unit
+      ATTRS{idVendor}==" 303
+      a ", ATTR{idProduct}==" 1001 ", MODE=" 0666 ", ENV{ID_MM_DEVICE_IGNORE}=" 1 ", ENV{ID_MM_PORT_IGNORE}=" 1 "
