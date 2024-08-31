@@ -44,6 +44,7 @@ in
     "https://hyprland.cachix.org"
     "https://cache.nixos.org/"
     "https://nixpkgs-wayland.cachix.org"
+    "https://hydra.novarover.space"
   ];
 
   nix.settings.trusted-public-keys = [
@@ -53,15 +54,19 @@ in
     "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+    "nova-1:lRJ8YVtMKF5G7fk1OUx4vFyupTCwA4RrMNTX4JH7Hig="
   ];
+
+  nixpkgs.overlays = [
+    #(import ./nix-ros-overlay/overlay.nix)
+    (import "${(builtins.fetchTarball waylandUrl)}/overlay.nix")
+  ];
+  nixpkgs.config.allowUnfree = true;
 
   # nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Use the systemd-boot EFI boot loader.
-  #boot.loader.systemd-boot.enable = true;
-  #boot.loader.efi.canTouchEfiVariables = true;
-
   boot.loader = {
+    # systemd-boot.enable = true;
     efi = {
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot/efi"; # ← use the same mount point here.
@@ -71,7 +76,7 @@ in
       efiSupport = true;
       #efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
       device = "nodev";
-      useOSProber = true;
+      # useOSProber = true;
     };
   };
 
@@ -98,46 +103,66 @@ in
   services.printing.enable = true;
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    audio.enable = true;
+    pulse.enable = true;
+    alsa = {
+      enable = true;
+      support32Bit = true;
+    };
+    jack.enable = true;
+  };
+  hardware.pulseaudio.enable = lib.mkForce false;
 
   system.stateVersion = "23.05";
   home-manager.sharedModules = [{
     home.stateVersion = "23.05";
   }];
 
+  # Nova config and user config
   nova.profile = "shared";
   nova.substituters.nova.password = import ./hydra-secret.nix;
-
-  users.users.nova.extraGroups = [ "audio" ];
-
-  nova.workspace.enable = true;
-
   home-manager.users.nova = {
-    home.packages = with pkgs;  [
-      #add your software here
-      #e.g. slack
+    home.packages = with pkgs; [
       slack
+      brave
+      obsidian
+      zoom-us
+      discord
+      blackbox-terminal
+      jetbrains.pycharm-professional
+      jetbrains.webstorm
+      rider.rider
+      jetbrains.clion
+      obs-studio
+      prismlauncher
     ];
 
     # Adding to the task bar
     dconf.settings."org/gnome/shell".favorite-apps = [
-      # e.g. adding chrome, slack and vscode
       "brave-browser.desktop"
       "slack.desktop"
       "com.raggesilver.BlackBox.desktop"
       "obsidian.desktop"
     ];
+
+    # Adds HiDPI scaling support
+    dconf.settings."org/gnome/mutter".experimental-features = [
+      "scale-monitor-framebuffer"
+    ];
+
+    programs.git = lib.mkForce {
+      enable = true;
+      userName = "Bailey Chessum";
+      userEmail = "bailey.chessum1@gmail.com";
+    };
   };
-
   nova.desktop.browser.enable = lib.mkForce false;
+  nova.workspace.enable = true;
 
-  nixpkgs.overlays = [
-    #(import ./nix-ros-overlay/overlay.nix)
-    (import "${(builtins.fetchTarball waylandUrl)}/overlay.nix")
-  ];
-  nixpkgs.config.allowUnfree = true;
-
+  # TODO: kill
   environment.systemPackages = with pkgs; [
     # Utility
     gparted
@@ -149,21 +174,11 @@ in
     #vulkan-tools
     #autorandr
 
-    # Uni/work
-    slack
-    zoom-us
-
-    # Both uni/work and personal
-    obsidian-fix
-
     # obsidian --ozone-platform=x11
-    obs-studio
-    xdg-desktop-portal
     pipewire
     reaper
 
     # Fun
-    discord
     prismlauncher # Minecraft
     vital
     blender
@@ -183,7 +198,6 @@ in
     #rosPackages.humble.ros-base
     #rosPackages.humble.ros2cli
     # colcon
-    brave
 
     # Logitech crap
     solaar
@@ -192,13 +206,10 @@ in
     github-desktop
 
     # IDEs
-    jetbrains.pycharm-professional
-    jetbrains.webstorm
-    rider.rider
-    jetbrains.clion
+
 
     # Code
-    nodejs_21
+    # nodejs_21
     yarn
 
     pkgs.jdk21
@@ -225,18 +236,30 @@ in
 
   services.udev.extraRules = builtins.readFile ./udev-extra-rules.txt;
 
+  # TODO: kill
   nixpkgs.config.permittedInsecurePackages = [
     "electron-25.9.0"
   ];
+
+  # --- Wayland --- #
+  environment.sessionVariables.NIXOS_OZONE_WL = "1"; # for chromium/electron
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+      ];
+    };
+  };
 
   # -- Graphics card stuff --
   # https://nixos.wiki/wiki/Nvidia
 
   # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+  hardware.graphics = {
+    #enable = true;
+    #driSupport = true;
+    #driSupport32Bit = true;
 
     # Install additional packages that improve graphics performance and compatibility.
     # https://discourse.nixos.org/t/use-nvidia-drivers-only-to-silence-fans-and-intel-hd-gpu-otherwise/34724/5
@@ -307,15 +330,13 @@ in
   # https://nixos.wiki/wiki/Nvidia#CUDA
   # https://discourse.nixos.org/t/solved-what-are-the-options-for-hardware-nvidia-package-docs-seem-out-of-date/14251/2
 
-
-
   # Service for starting up the GPU fans automatically
   systemd.services.gpu-fan = {
     enable = true;
     description = "GPU fan control";
     wantedBy = [ "multi-user.target" ];
     path = [ config.hardware.nvidia.package.settings ];
-    script = ''nvidia-settings --ctrl-display=: 1 - a [ gpu:0 ] /GPUFanControlState=1 -a [fan:0]/GPUTargetFanSpeed=50 > /home/nova/fan.log'';
+    script = ''nvidia-settings --ctrl-display=:1 -a [gpu:0]/GPUFanControlState=1 -a [fan:0]/GPUTargetFanSpeed=50 > /home/nova/fan.log'';
     serviceConfig.Type = "oneshot";
   };
 
@@ -326,8 +347,6 @@ in
     enable = true;
     enableGraphical = true;
   };
-
-
 }
 
 
