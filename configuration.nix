@@ -66,18 +66,18 @@ in
   # nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   boot.loader = {
-    # systemd-boot.enable = true;
+    systemd-boot.enable = true;
     efi = {
       canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot/efi"; # ← use the same mount point here.
+      #efiSysMountPoint = "/boot/efi"; # ← use the same mount point here.
     };
-    grub = {
-      enable = true;
-      efiSupport = true;
-      #efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
-      device = "nodev";
-      # useOSProber = true;
-    };
+    #grub = {
+    #  enable = true;
+    #  efiSupport = true;
+    #  #efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
+    #  device = "nodev";
+    # useOSProber = true;
+    #};
   };
 
   # boot.loader.grub.enable = true;
@@ -159,6 +159,7 @@ in
       userEmail = "bailey.chessum1@gmail.com";
     };
   };
+  home-manager.backupFileExtension = "backup";
   nova.desktop.browser.enable = lib.mkForce false;
   nova.workspace.enable = true;
 
@@ -219,10 +220,10 @@ in
 
     # Game Dev
     mono
-    godot4-mono
+    #godot4-mono
     dotnetPkg
     dotnetCorePackages.sdk_6_0
-    dotnetPackages.Nuget
+    #dotnetPackages.Nuget
     scons
 
     lunar-client
