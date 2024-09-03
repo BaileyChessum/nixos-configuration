@@ -138,6 +138,14 @@ in
       jetbrains.clion
       obs-studio
       prismlauncher
+
+      # trying things out
+
+      webcord-vencord
+      discord-screenaudio
+      lorien
+      openboard
+
     ];
 
     # Adding to the task bar
