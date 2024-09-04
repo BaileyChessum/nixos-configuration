@@ -183,6 +183,12 @@ in
     #vulkan-tools
     #autorandr
 
+    nodePackages.eslint
+
+    eslint_d
+    nodejs
+    nodejs_22
+
     # obsidian --ozone-platform=x11
     pipewire
     reaper
@@ -357,18 +363,3 @@ in
     enableGraphical = true;
   };
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
