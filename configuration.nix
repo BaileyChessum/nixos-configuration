@@ -29,6 +29,7 @@ let
   waylandUrl = "https://github.com/nix-community/nixpkgs-wayland/archive/${waylandRev}.tar.gz";
 
   obsidian-fix = pkgs.callPackage ./obsidian { };
+  vital-fix = pkgs.callPackage ./vital/vital.nix { };
 in
 {
   imports = [
@@ -111,7 +112,7 @@ in
     alsa = {
       enable = true;
       support32Bit = true;
-    };
+    }; 
     jack.enable = true;
   };
   hardware.pulseaudio.enable = lib.mkForce false;
@@ -120,6 +121,15 @@ in
   home-manager.sharedModules = [{
     home.stateVersion = "23.05";
   }];
+
+  # add steam
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  };
+  programs.gamemode.enable = true;
 
   # Nova config and user config
   nova.profile = "shared";
@@ -138,16 +148,12 @@ in
       jetbrains.clion
       obs-studio
       prismlauncher
-
-      # trying things out
-
-      webcord-vencord
       discord-screenaudio
-      lorien
       openboard
-
+      vital-fix
     ];
 
+    
     # Adding to the task bar
     dconf.settings."org/gnome/shell".favorite-apps = [
       "brave-browser.desktop"
@@ -161,6 +167,20 @@ in
       "scale-monitor-framebuffer"
     ];
 
+    /* # Fix annoying things
+    dconf.settings."org/gnome/desktop/interface" = {
+      # This garbage is so annoying, prevents programs from capturing control being pressed
+      locate-pointer = lib.mkForce false;
+    };
+    dconf.settings."org/gnome/desktop/sound" = {
+      # I enjoy not ruining my audio :)
+      allow-volume-above-100-percent = lib.mkForce false;
+    };
+    dconf.settings."org/gnome/desktop/session" = {
+      idle-delay = lib.mkForce (120 * 60); # 2 hours on my desktop
+    }; */
+
+    # Make git author details correct
     programs.git = lib.mkForce {
       enable = true;
       userName = "Bailey Chessum";
@@ -182,12 +202,9 @@ in
     #vulkan-loader
     #vulkan-tools
     #autorandr
+ 
 
-    nodePackages.eslint
-
-    eslint_d
     nodejs
-    nodejs_22
 
     # obsidian --ozone-platform=x11
     pipewire
@@ -363,3 +380,18 @@ in
     enableGraphical = true;
   };
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
