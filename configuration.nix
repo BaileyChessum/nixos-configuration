@@ -195,6 +195,8 @@ in
 
   # Real time audio
   musnix.enable = true;
+  musnix.kernel.realtime = true;
+  
 
   # TODO: kill
   environment.systemPackages = with pkgs; [
