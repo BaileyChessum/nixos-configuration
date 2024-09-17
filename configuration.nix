@@ -194,10 +194,12 @@ in
   nova.workspace.enable = false;
 
   # Real time audio
-  musnix.enable = true;
-  musnix.kernel.realtime = true;
-  musnix.alsaSeq.enable = true;
-  musnix.rtcqs.enable = true;
+  musnix = {
+    enable = true;
+    kernel.realtime = true;
+    alsaSeq.enable = true;
+    rtcqs.enable = true;
+  };
 
   # TODO: kill
   environment.systemPackages = with pkgs; [
