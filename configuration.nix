@@ -29,7 +29,6 @@ let
   waylandUrl = "https://github.com/nix-community/nixpkgs-wayland/archive/${waylandRev}.tar.gz";
 
   obsidian-fix = pkgs.callPackage ./obsidian { };
-  vital-fix = pkgs.callPackage ./vital/vital.nix { };
 in
 {
   imports = [
@@ -37,12 +36,14 @@ in
     ./hardware-configuration.nix
     ./nixfiles/nixos
     <home-manager/nixos>
+    ./musnix
   ];
 
   nix.settings.substituters = [
+    "nix-community.cachix.org"
     "https://cuda-maintainers.cachix.org"
     "https://ros.cachix.org"
-    "https://hyprland.cachix.org"
+    #"https://hyprland.cachix.org"
     "https://cache.nixos.org/"
     "https://nixpkgs-wayland.cachix.org"
     "https://hydra.novarover.space"
@@ -52,7 +53,7 @@ in
     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
     "ros.cachix.org-1:dSyZxI8geDCJrwgvCOHDoAfOm5sV1wCPjBkKL+38Rvo="
-    "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+    #"hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
     "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
     "nova-1:lRJ8YVtMKF5G7fk1OUx4vFyupTCwA4RrMNTX4JH7Hig="
@@ -61,6 +62,7 @@ in
   nixpkgs.overlays = [
     #(import ./nix-ros-overlay/overlay.nix)
     (import "${(builtins.fetchTarball waylandUrl)}/overlay.nix")
+    (import ./vital/overlay.nix)
   ];
   nixpkgs.config.allowUnfree = true;
 
@@ -150,10 +152,9 @@ in
       prismlauncher
       discord-screenaudio
       openboard
-      vital-fix
+      vital
     ];
 
-    
     # Adding to the task bar
     dconf.settings."org/gnome/shell".favorite-apps = [
       "brave-browser.desktop"
@@ -189,7 +190,11 @@ in
   };
   home-manager.backupFileExtension = "backup";
   nova.desktop.browser.enable = lib.mkForce false;
-  nova.workspace.enable = true;
+  # nova.workspace.enable = true;
+  nova.workspace.enable = false;
+
+  # Real time audio
+  musnix.enable = true;
 
   # TODO: kill
   environment.systemPackages = with pkgs; [
@@ -211,12 +216,12 @@ in
     reaper
 
     # Fun
-    prismlauncher # Minecraft
+    #prismlauncher # Minecraft
     vital
     blender
 
-    lmms
-    bitwig-studio
+    #lmms
+    #bitwig-studio
 
     gimp
     gscreenshot
@@ -244,20 +249,20 @@ in
     # nodejs_21
     yarn
 
-    pkgs.jdk21
-    platformio
-    platformio-core.udev
-    openocd
+    #pkgs.jdk21
+    #platformio
+    #platformio-core.udev
+    #openocd
 
     # Game Dev
-    mono
+    #mono
     #godot4-mono
-    dotnetPkg
-    dotnetCorePackages.sdk_6_0
+    #dotnetPkg
+    #dotnetCorePackages.sdk_6_0
     #dotnetPackages.Nuget
-    scons
+    #scons
 
-    lunar-client
+    #lunar-client
 
   ];
 
