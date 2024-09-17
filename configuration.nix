@@ -196,7 +196,7 @@ in
   # Real time audio
   musnix.enable = true;
   musnix.kernel.realtime = true;
-  
+  musnix.alsaSeq.enable = true;
 
   # TODO: kill
   environment.systemPackages = with pkgs; [
