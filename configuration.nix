@@ -40,7 +40,7 @@ in
   ];
 
   nix.settings.substituters = [
-    "nix-community.cachix.org"
+    "https://nix-community.cachix.org"
     "https://cuda-maintainers.cachix.org"
     "https://ros.cachix.org"
     #"https://hyprland.cachix.org"
@@ -137,6 +137,7 @@ in
   nova.profile = "shared";
   nova.substituters.nova.password = import ./hydra-secret.nix;
   home-manager.users.nova = {
+
     home.packages = with pkgs; [
       slack
       brave
@@ -168,7 +169,7 @@ in
       "scale-monitor-framebuffer"
     ];
 
-    /* # Fix annoying things
+    # Fix annoying things
     dconf.settings."org/gnome/desktop/interface" = {
       # This garbage is so annoying, prevents programs from capturing control being pressed
       locate-pointer = lib.mkForce false;
@@ -179,7 +180,7 @@ in
     };
     dconf.settings."org/gnome/desktop/session" = {
       idle-delay = lib.mkForce (120 * 60); # 2 hours on my desktop
-    }; */
+    };
 
     # Make git author details correct
     programs.git = lib.mkForce {
@@ -190,8 +191,8 @@ in
   };
   home-manager.backupFileExtension = "backup";
   nova.desktop.browser.enable = lib.mkForce false;
-  # nova.workspace.enable = true;
-  nova.workspace.enable = false;
+  nova.workspace.enable = true;
+  #nova.workspace.enable = false;
 
   # Real time audio
   musnix = {
@@ -200,6 +201,9 @@ in
     alsaSeq.enable = true;
     rtcqs.enable = true;
   };
+
+  users.groups.audio.members = [ "nova" ];
+  users.groups.realtime.members = [ "nova" ];
 
   # TODO: kill
   environment.systemPackages = with pkgs; [
