@@ -195,7 +195,6 @@ in
     # Utility
     gparted
 
-    nodejs
     pipewire
     reaper
 
@@ -214,13 +213,6 @@ in
     logiops
 
     github-desktop
-
-    # IDEs
-
-
-    # Code
-    # nodejs_21
-    yarn
   ];
 
   services.udev.packages = [
