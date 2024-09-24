@@ -63,6 +63,7 @@ in
     #(import ./nix-ros-overlay/overlay.nix)
     (import "${(builtins.fetchTarball waylandUrl)}/overlay.nix")
     (import ./vital/overlay.nix)
+    (import ./overlays/ides)
   ];
   nixpkgs.config.allowUnfree = true;
 
@@ -147,7 +148,7 @@ in
       blackbox-terminal
       jetbrains.pycharm-professional
       jetbrains.webstorm
-      rider.rider
+      #rider.rider
       jetbrains.clion
       obs-studio
       prismlauncher
@@ -228,6 +229,7 @@ in
     #prismlauncher # Minecraft
     vital
     blender
+    
 
     #lmms
     #bitwig-studio
