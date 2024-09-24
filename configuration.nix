@@ -199,26 +199,7 @@ in
 
   # TODO: kill
   environment.systemPackages = with pkgs; [
-    # Utility
-    
-
-    pipewire
-    
-
-    # Fun
-    
-    
-
-    
-    gscreenshot
-    shutter
-
-    
-
-    # Logitech crap
-    
-
-    github-desktop
+   
   ];
 
   services.udev.packages = [
