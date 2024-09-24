@@ -22,6 +22,12 @@ in
     ./musnix
   ];
 
+  nixpkgs.overlays = [
+    (import ./overlays/wayland)
+    (import ./vital/overlay.nix)
+    (import ./overlays/ides)
+  ];
+
   nix.settings.substituters = [
     "https://nix-community.cachix.org"
     "https://cuda-maintainers.cachix.org"
@@ -42,12 +48,7 @@ in
     "nova-1:lRJ8YVtMKF5G7fk1OUx4vFyupTCwA4RrMNTX4JH7Hig="
   ];
 
-  nixpkgs.overlays = [
-    #(import ./nix-ros-overlay/overlay.nix)
-    (import ./overlays/wayland)
-    (import ./vital/overlay.nix)
-    (import ./overlays/ides)
-  ];
+  
   nixpkgs.config.allowUnfree = true;
 
   # nix.settings.experimental-features = [ "nix-command" "flakes" ];
