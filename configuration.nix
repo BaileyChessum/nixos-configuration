@@ -194,42 +194,20 @@ in
   environment.systemPackages = with pkgs; [
     # Utility
     gparted
-    #gwe # GreenWithEnvy, for changing gpu fan curves
-    #clinfo
-    #nvtop-nvidia
-    #virtualglLib
-    #vulkan-loader
-    #vulkan-tools
-    #autorandr
- 
 
     nodejs
-
-    # obsidian --ozone-platform=x11
     pipewire
     reaper
 
     # Fun
-    #prismlauncher # Minecraft
     vital
     blender
-    
-
-    #lmms
-    #bitwig-studio
 
     gimp
     gscreenshot
     shutter
 
     inkscape
-
-    # ROS2
-    #rosPackages.humble.rclpy
-    #rosPackages.humble.geometry-msgs
-    #rosPackages.humble.ros-base
-    #rosPackages.humble.ros2cli
-    # colcon
 
     # Logitech crap
     solaar
@@ -243,22 +221,6 @@ in
     # Code
     # nodejs_21
     yarn
-
-    #pkgs.jdk21
-    #platformio
-    #platformio-core.udev
-    #openocd
-
-    # Game Dev
-    #mono
-    #godot4-mono
-    #dotnetPkg
-    #dotnetCorePackages.sdk_6_0
-    #dotnetPackages.Nuget
-    #scons
-
-    #lunar-client
-
   ];
 
   services.udev.packages = [
