@@ -5,10 +5,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  dotnetPkg =
-    (with pkgs.dotnetCorePackages; combinePackages [
-      sdk_6_0
-    ]);
+  #dotnetPkg =
+  #  (with pkgs.dotnetCorePackages; combinePackages [
+  #    sdk_6_0
+  #  ]);
   #godot4-mono = pkgs.callPackage ./godot { rider = rider.rider; dotnetPkg = dotnetPkg; };
 
   # Wayland overlay config
