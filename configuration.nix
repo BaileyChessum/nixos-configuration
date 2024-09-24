@@ -5,20 +5,11 @@
 { config, lib, pkgs, ... }:
 
 let
-  pypi2nix = import
-    (pkgs.fetchgit {
-      url = "https://github.com/nix-community/pypi2nix";
-      # adjust rev and sha256 to desired version
-      rev = "v2.0.1";
-      sha256 = "sha256:0mxh3x8bck3axdfi9vh9mz1m3zvmzqkcgy6gxp8f9hhs6qg5146y";
-    })
-    { };
-  rider = pkgs.callPackage ./rider.nix { };
   dotnetPkg =
     (with pkgs.dotnetCorePackages; combinePackages [
       sdk_6_0
     ]);
-  godot4-mono = pkgs.callPackage ./godot { rider = rider.rider; dotnetPkg = dotnetPkg; };
+  #godot4-mono = pkgs.callPackage ./godot { rider = rider.rider; dotnetPkg = dotnetPkg; };
 
   # Wayland overlay config
   waylandRev = "master";
@@ -27,8 +18,6 @@ let
   # 'rev' could be a git rev, to pin the overla.
   # if you pin, you should use a tool like `niv` maybe, but please consider trying flakes
   waylandUrl = "https://github.com/nix-community/nixpkgs-wayland/archive/${waylandRev}.tar.gz";
-
-  obsidian-fix = pkgs.callPackage ./obsidian { };
 in
 {
   imports = [
