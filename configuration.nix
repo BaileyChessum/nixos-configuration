@@ -132,7 +132,7 @@ in
       blackbox-terminal
       jetbrains.pycharm-professional
       jetbrains.webstorm
-      #rider.rider
+      jetbrains.rider
       jetbrains.clion
       obs-studio
       prismlauncher
@@ -181,6 +181,7 @@ in
       userEmail = "bailey.chessum1@gmail.com";
     };
   };
+
   home-manager.backupFileExtension = "backup";
   nova.desktop.browser.enable = lib.mkForce false;
   nova.workspace.enable = true;
