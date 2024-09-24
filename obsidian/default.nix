@@ -1,4 +1,4 @@
-{ pkgs, electron, makeDesktopItem, fetchurl, ... }:
+{ pkgs, ... }:
 
 # https://www.reddit.com/r/NixOS/comments/1ckgfxk/add_startup_command_line_arguments_to_programs/
 pkgs.obsidian.overrideAttrs (e: rec {
