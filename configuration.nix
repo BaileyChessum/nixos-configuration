@@ -139,6 +139,13 @@ in
       discord-screenaudio
       openboard
       vital
+
+      gparted
+      reaper
+      blender
+      gimp
+      solaar
+      logiops
     ];
 
     # Adding to the task bar
@@ -193,24 +200,23 @@ in
   # TODO: kill
   environment.systemPackages = with pkgs; [
     # Utility
-    gparted
+    
 
     pipewire
-    reaper
+    
 
     # Fun
-    vital
-    blender
+    
+    
 
-    gimp
+    
     gscreenshot
     shutter
 
-    inkscape
+    
 
     # Logitech crap
-    solaar
-    logiops
+    
 
     github-desktop
   ];
