@@ -146,6 +146,8 @@ in
       gimp
       solaar
       logiops
+
+      tmux
     ];
 
     # Adding to the task bar
