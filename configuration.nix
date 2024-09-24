@@ -197,11 +197,6 @@ in
   users.groups.audio.members = [ "nova" ];
   users.groups.realtime.members = [ "nova" ];
 
-  # TODO: kill
-  environment.systemPackages = with pkgs; [
-   
-  ];
-
   services.udev.packages = [
     pkgs.platformio-core
     pkgs.openocd
