@@ -119,10 +119,15 @@ in
   programs.gamemode.enable = true;
 
   # Nova config and user config
-  nova.profile = "shared";
-  nova.substituters.nova.password = import ./hydra-secret.nix;
-  home-manager.users.nova = {
+  nova = {
+    profile = "shared";
+    substituters.nova.password = import ./hydra-secret.nix;
 
+    desktop.browser.enable = lib.mkForce false;
+    workspace.enable = true;
+  };
+  
+  home-manager.users.nova = {
     home.packages = with pkgs; [
       slack
       brave
@@ -185,8 +190,7 @@ in
   };
 
   home-manager.backupFileExtension = "backup";
-  nova.desktop.browser.enable = lib.mkForce false;
-  nova.workspace.enable = true;
+  
   #nova.workspace.enable = false;
 
   # Real time audio
