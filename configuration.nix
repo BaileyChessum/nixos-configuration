@@ -142,10 +142,13 @@ in {
 
     home.shellAliases = {
       hydra = "ssh -i ~/nova-oracle.key root@hydra.novarover.space";
+
+      # Builds everything for the workspace.nix jobset, then uploads it to hydra
+      # To make this work, make sure git@github.com:MonashNovaRover/nova is cloned in ~, and nova-oracle.key is in ~
       hydra-vomit = ''
-        nix-instantiate ~/nova/nixfiles/ci/jobsets/workspaces.nix --arg nixpkgs '<nixpkgs>' --arg nova-monorepo ~/nova --arg supportedSystems '[ "x86_64-linux" ]' --argstr rosDistro jazzy -A x86_64-linux 
-        | xargs nix-store --query --requisites 
-        | xargs nix-store --realise 
+        nix-instantiate ~/nova/nixfiles/ci/jobsets/workspaces.nix --arg nixpkgs '<nixpkgs>' --arg nova-monorepo ~/nova --arg supportedSystems '[ "x86_64-linux" ]' --argstr rosDistro jazzy -A x86_64-linux \
+        | xargs nix-store --query --requisites \
+        | xargs nix-store --realise \
         | NIX_SSHOPTS="-i ~/nova-oracle.key" xargs nix-copy-closure --to root@hydra.novarover.space --use-substitutes --log-format bar-with-logs
       '';
     };
