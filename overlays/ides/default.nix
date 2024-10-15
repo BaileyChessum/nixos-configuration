@@ -20,20 +20,23 @@ in
 {
   jetbrains = prev.jetbrains // {
     clion = prev.jetbrains.clion.overrideAttrs (old: {
-      propegatedBuildInputs = [
+      paths = [
         final.cmake
         final.libgcc
-      ] ++ old.propegatedBuildInputs or [];
+        final.gdb
+      ] ++ old.paths or [];
     });
 
     webstorm = prev.jetbrains.webstorm.overrideAttrs (old: {
-      propegatedBuildInputs = [
+      paths = [
         final.nodejs
         final.yarn
         final.nodePackages.eslint
         final.nodePackages.typescript
         final.nodePackages.typescript-language-server
-      ] ++ old.propegatedBuildInputs or [];
+        final.tailwindcss-language-server
+        final.tailwindcss
+      ] ++ old.paths or [];
     });
 
     pycharm-professional = prev.jetbrains.pycharm-professional;
