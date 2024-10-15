@@ -142,6 +142,7 @@ in {
 
     home.shellAliases = {
       hydra = "ssh -i ~/nova-oracle.key root@hydra.novarover.space";
+      fan = "~/fan.sh";
     };
 
     # Adding to the task bar
