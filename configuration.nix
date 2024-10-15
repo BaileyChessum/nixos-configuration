@@ -12,8 +12,7 @@ let
   #godot4-mono = pkgs.callPackage ./godot { rider = rider.rider; dotnetPkg = dotnetPkg; };
 
   
-in
-{
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -48,10 +47,11 @@ in
     "nova-1:lRJ8YVtMKF5G7fk1OUx4vFyupTCwA4RrMNTX4JH7Hig="
   ];
 
+  nix.settings.trusted-users = [ "root" "@wheel" ];
   
   nixpkgs.config.allowUnfree = true;
 
-  # nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   boot.loader = {
     systemd-boot.enable = true;
@@ -59,23 +59,7 @@ in
       canTouchEfiVariables = true;
       #efiSysMountPoint = "/boot/efi"; # ← use the same mount point here.
     };
-    #grub = {
-    #  enable = true;
-    #  efiSupport = true;
-    #  #efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
-    #  device = "nodev";
-    # useOSProber = true;
-    #};
   };
-
-  # boot.loader.grub.enable = true;
-  # boot.loader.grub.device = "nodev";
-  # boot.loader.grub.useOSProber = true;
-
-  # networking.hostName = "nixos"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Australia/Melbourne";
@@ -155,6 +139,16 @@ in
       tmux
     ];
 
+    home.shellAliases = {
+      hydra = "ssh -i ~/nova-oracle.key root@hydra.novarover.space";
+      hydra-vomit = ''
+        nix-instantiate ~/nova/nixfiles/ci/jobsets/workspaces.nix --arg nixpkgs '<nixpkgs>' --arg nova-monorepo ~/nova --arg supportedSystems '[ "x86_64-linux" ]' --argstr rosDistro jazzy -A x86_64-linux 
+        | xargs nix-store --query --requisites 
+        | xargs nix-store --realise 
+        | NIX_SSHOPTS="-i ~/nova-oracle.key" xargs nix-copy-closure --to root@hydra.novarover.space --use-substitutes --log-format bar-with-logs
+      '';
+    };
+
     # Adding to the task bar
     dconf.settings."org/gnome/shell".favorite-apps = [
       "brave-browser.desktop"
@@ -191,15 +185,14 @@ in
 
   home-manager.backupFileExtension = "backup";
   
-  #nova.workspace.enable = false;
 
   # Real time audio
-  musnix = {
-    enable = true;
-    kernel.realtime = true;
-    alsaSeq.enable = true;
-    rtcqs.enable = true;
-  };
+  #musnix = {
+  #  enable = true;
+  #  kernel.realtime = true;
+  #  alsaSeq.enable = true;
+  #  rtcqs.enable = true;
+  #};
 
   users.groups.audio.members = [ "nova" ];
   users.groups.realtime.members = [ "nova" ];
