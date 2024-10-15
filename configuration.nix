@@ -137,6 +137,7 @@ in {
       logiops
 
       tmux
+      nix-output-monitor
     ];
 
     home.shellAliases = {
@@ -247,7 +248,7 @@ in {
     "nvidia"
   ];
 
-  # I apparently need this to get beta nvidia drivers to work? Putting in just in case lol
+  # I apparently need this to get beta nvidia drivers to work? Putting in just in case
   boot.kernelParams = [
     "nvidia-drm.modeset=1"
     "nvidia-drm.fbdev=1"
