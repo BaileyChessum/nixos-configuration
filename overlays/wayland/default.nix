@@ -10,5 +10,21 @@ let
   waylandUrl = "https://github.com/nix-community/nixpkgs-wayland/archive/${waylandRev}.tar.gz";
 
   wayland = builtins.fetchTarball waylandUrl;
+  nixpkgs-wayland-overlay = import "${wayland}/overlay.nix";
+  freerdp3 = "${wayland}/pkgs/freerdp3";
 in
-  import "${wayland}/overlay.nix"
+  final: prev: (nixpkgs-wayland-overlay final prev) // {
+    # Change freerdp3
+    freerdp3 = prev.callPackage freerdp3 {
+      inherit (prev.darwin.apple_sdk.frameworks)
+        AudioToolbox
+        AVFoundation
+        Carbon
+        Cocoa
+        CoreMedia
+        ;
+      inherit (prev.gst_all_1) gstreamer gst-plugins-base gst-plugins-good;
+
+      webkitgtk_4_0 = prev.webkitgtk_4_1;
+    };
+  }
