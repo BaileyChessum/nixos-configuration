@@ -19,6 +19,7 @@ in {
     ./nixfiles/nixos
     <home-manager/nixos>
     ./musnix
+    ./nixvim
   ];
 
   nixpkgs.overlays = [
@@ -102,6 +103,9 @@ in {
   };
   programs.gamemode.enable = true;
 
+  # Autocomplete in bash
+  programs.bash.blesh.enable = true;
+
   # Nova config and user config
   nova = {
     profile = "shared";
@@ -153,22 +157,30 @@ in {
       "obsidian.desktop"
     ];
 
-    # Adds HiDPI scaling support
-    dconf.settings."org/gnome/mutter".experimental-features = [
-      "scale-monitor-framebuffer"
-    ];
+    dconf.settings = {
+      # Adds HiDPI scaling support
+      "org/gnome/mutter".experimental-features = [
+        "scale-monitor-framebuffer"
+      ];
 
-    # Fix annoying things
-    dconf.settings."org/gnome/desktop/interface" = {
-      # This garbage is so annoying, prevents programs from capturing control being pressed
-      locate-pointer = lib.mkForce false;
-    };
-    dconf.settings."org/gnome/desktop/sound" = {
-      # I enjoy not ruining my audio :)
-      allow-volume-above-100-percent = lib.mkForce false;
-    };
-    dconf.settings."org/gnome/desktop/session" = {
-      idle-delay = lib.mkForce (120 * 60); # 2 hours on my desktop
+      # Fix annoying things
+      "org/gnome/desktop/interface" = {
+        # This garbage is so annoying, prevents programs from capturing control being pressed
+        locate-pointer = lib.mkForce false;
+      };
+      "org/gnome/desktop/sound" = {
+        # I enjoy not ruining my audio :)
+        allow-volume-above-100-percent = lib.mkForce false;
+      };
+      "org/gnome/desktop/session" = {
+        idle-delay = lib.mkForce (120 * 60); # 2 hours on my desktop
+      };
+      "org/gnome/settings-daemon/plugins/power" = {
+        sleep-inactive-ac-timeout = 2700; # 3x the default
+      };
+      "org/gnome/desktop/screensaver" = {
+        lock-delay = 3600;
+      };
     };
 
     # Make git author details correct
@@ -180,7 +192,6 @@ in {
   };
 
   home-manager.backupFileExtension = "backup";
-  
 
   # Real time audio
   #musnix = {
