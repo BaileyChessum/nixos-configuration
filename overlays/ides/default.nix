@@ -19,13 +19,15 @@ let
 in
 {
   jetbrains = prev.jetbrains // {
-    clion = prev.jetbrains.clion.overrideAttrs (old: {
-      paths = [
-        final.cmake
-        final.libgcc
-        final.gdb
-      ] ++ old.paths or [];
-    });
+    #clion = prev.jetbrains.clion.overrideAttrs (old: {
+    #  paths = [
+    #    final.cmake
+    #    final.libgcc
+    #    final.gdb
+    #  ] ++ old.paths or [];
+    #});
+    
+    clion = prev.jetbrains.clion;
 
     webstorm = prev.jetbrains.webstorm.overrideAttrs (old: {
       paths = [
@@ -41,6 +43,7 @@ in
 
     pycharm-professional = prev.jetbrains.pycharm-professional;
 
+    /** 
     rider = prev.jetbrains.rider.overrideAttrs (attrs: {
       postInstall = ''
         echo BAILEY AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 
@@ -66,5 +69,6 @@ in
         ln -s $out/rider/plugins $out/plugins
       '' + attrs.postInstall or "";
     });
+    */
   };
 }

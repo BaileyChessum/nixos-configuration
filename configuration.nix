@@ -10,7 +10,7 @@ let
   #    sdk_6_0
   #  ]);
   #godot4-mono = pkgs.callPackage ./godot { rider = rider.rider; dotnetPkg = dotnetPkg; };
-
+  hm-lib = import <home-manager/modules/lib/stdlib-extended.nix> lib;
   
 in {
   imports = [
@@ -18,13 +18,11 @@ in {
     ./hardware-configuration.nix
     ./nixfiles/nixos
     <home-manager/nixos>
-    ./musnix
-    ./nixvim
+    ./imports
   ];
 
   nixpkgs.overlays = [
     (import ./overlays/wayland)
-    (import ./vital/overlay.nix)
     (import ./overlays/ides)
   ];
 
@@ -51,7 +49,7 @@ in {
   nix.settings.trusted-users = [ "root" "@wheel" ];
   
   nixpkgs.config.allowUnfree = true;
-
+  
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   boot.loader = {
@@ -68,9 +66,6 @@ in {
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -87,11 +82,16 @@ in {
     }; 
     jack.enable = true;
   };
-  hardware.pulseaudio.enable = lib.mkForce false;
+
+  # Enable docker
+  virtualisation.docker.enable = true;
+  users.extraGroups.docker.members = [ "nova" ];
+
+  # hardware.pulseaudio.enable = lib.mkDefault false;
 
   system.stateVersion = "23.05";
   home-manager.sharedModules = [{
-    home.stateVersion = "23.05";
+    home.stateVersion = lib.mkForce "23.05";
   }];
 
   # add steam
@@ -106,13 +106,48 @@ in {
   # Autocomplete in bash
   programs.bash.blesh.enable = true;
 
+  # make the computer usable under load ??? maybe ?? 
+  services.scx = {
+    enable = true;
+    scheduler = "scx_lavd";
+    extraArgs = [
+      "--performance"
+    ];
+  };
+
+  services.hydra.port = 3000;
+  networking.firewall.allowedTCPPorts = [
+    5173
+    3000
+  ];
+
   # Nova config and user config
   nova = {
     profile = "shared";
     substituters.nova.password = import ./hydra-secret.nix;
 
     desktop.browser.enable = lib.mkForce false;
-    workspace.enable = true;
+    workspace.enable = false;
+    
+    desktop.enable = true;
+
+  };
+
+  peripherals.realsense.enable = lib.mkForce false;
+
+
+  # Enable the GNOME Desktop Environment.
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+  # services.displayManager.sddm.enable = true;
+  # services.desktopManager.plasma6.enable = true;
+
+  # override the default nova desktop environment definitions that enable gnome
+  services.xserver = {
+    displayManager.gdm = {
+      enable = lib.mkForce false;
+    };
+    desktopManager.gnome.enable = lib.mkForce false;
   };
   
   home-manager.users.nova = {
@@ -120,12 +155,12 @@ in {
       slack
       brave
       obsidian
-      zoom-us
+      #zoom-us 
       discord
       blackbox-terminal
       jetbrains.pycharm-professional
       jetbrains.webstorm
-      jetbrains.rider
+      # jetbrains.rider
       jetbrains.clion
       obs-studio
       prismlauncher
@@ -142,6 +177,15 @@ in {
 
       tmux
       nix-output-monitor
+      webcord
+      obs-cmd
+
+      unityhub
+      jetbrains.rider
+
+      libreoffice
+
+      docker-compose
     ];
 
     home.shellAliases = {
@@ -153,8 +197,9 @@ in {
     dconf.settings."org/gnome/shell".favorite-apps = [
       "brave-browser.desktop"
       "slack.desktop"
-      "com.raggesilver.BlackBox.desktop"
+      "com.mitchellh.ghostty.desktop"
       "obsidian.desktop"
+      
     ];
 
     dconf.settings = {
@@ -173,13 +218,14 @@ in {
         allow-volume-above-100-percent = lib.mkForce false;
       };
       "org/gnome/desktop/session" = {
-        idle-delay = lib.mkForce (120 * 60); # 2 hours on my desktop
+        # https://github.com/nix-community/home-manager/blob/83ecd50915a09dca928971139d3a102377a8d242/modules/misc/dconf.nix#L63-L69
+        idle-delay = lib.mkForce (hm-lib.gvariant.mkUint32 3600); # 1 hour on my desktop
       };
       "org/gnome/settings-daemon/plugins/power" = {
         sleep-inactive-ac-timeout = 2700; # 3x the default
       };
       "org/gnome/desktop/screensaver" = {
-        lock-delay = 3600;
+        lock-delay = lib.mkForce (hm-lib.gvariant.mkUint32 3600);
       };
     };
 
@@ -209,11 +255,29 @@ in {
     pkgs.openocd
   ];
 
-  services.udev.extraRules = builtins.readFile ./udev-extra-rules.txt;
+  # services.udev.extraRules = builtins.readFile ./udev-extra-rules.txt;
+
+  services.keyd = {
+    enable = true;
+    keyboards = {
+      default = {
+        ids = ["*"];
+        settings = {
+          main = {
+            capslock = "esc";
+          };
+        };
+      };
+    };
+  };
 
   # TODO: kill
   nixpkgs.config.permittedInsecurePackages = [
     "electron-25.9.0"
+    "dotnet-sdk-6.0.428"
+    "dotnet-runtime-wrapped-6.0.36"
+    "dotnet-runtime-6.0.36"
+    "dotnet-sdk-wrapped-6.0.428"
   ];
 
   # --- Wayland --- #
@@ -277,7 +341,7 @@ in {
     # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
     # Only available from driver 515.43.04+
     # Currently alpha-quality/buggy, so false is currently the recommended setting.
-    open = false;
+    open = false; #true;
 
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.
@@ -288,15 +352,15 @@ in {
 
     # Stolen shamelessly from:
     # https://www.reddit.com/r/NixOS/comments/1cx9wsy/question_nvidia_555_beta_released_today/
-    package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-      version = "555.58";
+    #package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+    #  version = "555.58";
 
-      sha256_64bit = "sha256-bXvcXkg2kQZuCNKRZM5QoTaTjF4l2TtrsKUvyicj5ew=";
-      sha256_aarch64 = "sha256-lyYxDuGDTMdGxX3CaiWUh1IQuQlkI2hPEs5LI20vEVw=";
-      openSha256 = "sha256-lyYxDuGDTMdGxX3CaiWUh1IQuQlkI2hPEs5LI20vEVw=";
-      settingsSha256 = "sha256-vWnrXlBCb3K5uVkDFmJDVq51wrCoqgPF03lSjZOuU8M=";
-      persistencedSha256 = "sha256-lyYxDuGDTMdGxX3CaiWUh1IQuQlkI2hPEs5LI20vEVw=";
-    };
+    #  sha256_64bit = "sha256-bXvcXkg2kQZuCNKRZM5QoTaTjF4l2TtrsKUvyicj5ew=";
+    #  sha256_aarch64 = "sha256-lyYxDuGDTMdGxX3CaiWUh1IQuQlkI2hPEs5LI20vEVw=";
+    #  openSha256 = "sha256-lyYxDuGDTMdGxX3CaiWUh1IQuQlkI2hPEs5LI20vEVw=";
+    #  settingsSha256 = "sha256-vWnrXlBCb3K5uVkDFmJDVq51wrCoqgPF03lSjZOuU8M=";
+    #  persistencedSha256 = "sha256-lyYxDuGDTMdGxX3CaiWUh1IQuQlkI2hPEs5LI20vEVw=";
+    #};
 
     # From https://discourse.nixos.org/t/use-nvidia-drivers-only-to-silence-fans-and-intel-hd-gpu-otherwise/34724/5
     nvidiaPersistenced = true;
@@ -314,6 +378,8 @@ in {
     script = ''nvidia-settings --ctrl-display=:1 -a [gpu:0]/GPUFanControlState=1 -a [fan:0]/GPUTargetFanSpeed=50 > /home/nova/fan.log'';
     serviceConfig.Type = "oneshot";
   };
+
+  
 
   # -- USB and Logitech fixes --
 
