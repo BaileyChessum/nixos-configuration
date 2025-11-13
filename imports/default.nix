@@ -3,10 +3,9 @@
 {
   imports = [
     ./nixvim
-    ./musnix
+    # ./musnix
     ./users
     
-    ./kde.nix
-    # ./nohang
+    ./kde
   ];
 }
